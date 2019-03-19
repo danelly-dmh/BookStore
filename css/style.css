@@ -1,0 +1,31 @@
+.ng-invalid.ng-dirty{
+  border-color: #FA787E;
+}
+.ng-valid.ng-dirty{
+  border-color: #78FA89;
+}
+
+body{
+	font-family: Arial;
+	background-color: #284043;
+}
+li{
+	font-weight: bolder;
+	font-family: "Oswald";
+	font-size: 1.8rem;
+	font-weight: 400;
+	color: #476;
+	margin-left: 100px;
+}
+h4{
+	font-style: italic;
+	padding: 20px;
+}
+input,textarea{
+	color: gray;
+	font-size: 1em;
+	padding: 15px;
+}
+img{
+	float: right;
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html  lang="en" ng-app="store">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <title>BookStore</title>
+  </head>
+  <body>
+    <div class="container" ng-controller="BookStoreController as store">
+      <p>Buscar:</p>
+      <p>Título:</p>
+      <textarea class="form-control" ng-model="filter.titulo" name="" id="" cols="50" rows="1"></textarea>
+      <p>Ordenar:</p>
+      <div class="form-group">
+        <select class="form-control" ng-model="filter.products">
+          <option value="1">Título</option>
+          <option value="2">Autor</option>
+          <option value="3">Editorial</option>
+        </select>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="product in store.products | OrderBy: '-id'">
+          <h3>{{product.titulo | uppercase}}
+            <em class="pull-right"> {{product.autor}}</em>
+            <em> {{product.editorial}}</em>
+  			  </h3>
+          <div class="text-center">
+    				<img ng-src="{{product.images[0].full}}"/>
+    			</div>
+          <section ng-init="panel.tab" ng-controller="PanelController as panel">
+            <ul class="nav nav-pills">
+              <li ng-class="{active: panel.isSelected(1)}"><a href="" ng-click="panel.selectTab(1)">Descripción</a></li>
+      				<li ng-class="{active: panel.isSelected(2)}"><a href="" ng-click="panel.selectTab(2)">Especificaciones</a></li>
+      				<li ng-class="{active: panel.isSelected(3)}"><a href="" ng-click="panel.selectTab(3)">Calificación de usuarios</a></li>
+      			</ul>
+            <div class="panel" ng-show="panel.isSelected(1)">
+      				<h4>Descripción</h4>
+      				<p>{{product.descripcion | lowercase}}</p>
+      			</div>
+            <div class="panel" ng-show="panel.isSelected(2)">
+      				<h4>Especificaciones</h4>
+      				<p>{{product.autor | uppercase}}</p>
+              <p>{{product.editorial | lowercase}}</p>
+      			</div>
+            <div class="panel" ng-show="panel.isSelected(3)">
+              <h4>Calificación de usuarios</h4>
+              <form name="reviewForm" class="form-horizontal" ng-controller="ReviewController as review" ng-submit="reviewForm.$valid && review.addReview(product)" novalidate>
+                <blockquote ng-repeat="review in product.reviews">
+      					  <b>Estrellas: {{review.stars}}</b>
+      					  {{review.body}}
+      					  <cite>Calificado por: {{review.author}}</cite>
+      					</blockquote>
+                <div class="form-group">
+      						<label >Estrellas: </label>
+      						<select class="form-control" ng-model="review.stars" required>
+      							<option value="1">1 estrellas</option>
+      							<option value="2">2 estrellas</option>
+      							<option value="3">3 estrellas</option>
+      							<option value="4">4 estrellas</option>
+      							<option value="5">5 estrellas</option>
+      						</select>
+      					</div>
+                <div class="form-group">
+      						<label >Comentarios: </label>
+      						<textarea class="form-control ng-invalid" placeholder="Escriba aquí su reseña del libro" ng-model="review.body" name="" id="" cols="30" rows="10" required></textarea>
+      					</div>
+                <div class="form-group">
+      						<label >by: </label>
+      					  <input placeholder="somebody@something.com" class="form-control ng-valid" type="email" ng-model="review.author" required/>
+      					</div>
+                <input type="submit" value="Submit" class="btn btn-primary" />
+      			  </form>
+            </div>
+          </section>
+        </li>
+      </ul>
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
